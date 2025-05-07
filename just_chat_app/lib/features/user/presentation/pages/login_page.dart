@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_chat_app/features/app/theme/style.dart';
 import 'package:just_chat_app/features/user/presentation/widgets/reusable_text_field.dart';
-
 import '../bloc/user_bloc.dart';
 
 class LoginPage extends StatefulWidget {
@@ -23,9 +22,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return BlocListener<UserBloc, UserState>(
       listener: (context, state) {
-        if(state is UserLoaded){
+        if (state is UserLoaded) {
           Navigator.pushReplacementNamed(context, '/home');
-        } else if(state is UserFailure){
+        } else if (state is UserFailure) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
         }
       },
@@ -66,42 +65,49 @@ class _LoginPageState extends State<LoginPage> {
                       isEmail: true,
                       onChanged: (value) => setState(() {
                         _email = value;
-                      })
+                      }),
                     ),
                     SizedBox(height: 30),
                     ReusableTextField(
                       isEmail: false,
                       onChanged: (value) => setState(() {
                         _password = value;
-                      })
+                      }),
                     ),
                     SizedBox(height: 40),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            context.read<UserBloc>().add(LoginRequested(_email, _password));
-                          }
+                      child: BlocBuilder<UserBloc, UserState>(
+                        builder: (context, state) {
+                          return ElevatedButton(
+                            onPressed: state is UserLoading
+                                ? null // Disable button when loading
+                                : () {
+                              if (_formKey.currentState!.validate()) {
+                                context.read<UserBloc>().add(LoginEvent(_email, _password));
+                              }
+                            },
+
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: sendMessageColor,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 15,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                            child: Text(
+                              state is UserLoading ? "Loading" : "Login",
+                              style: GoogleFonts.comfortaa(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                          );
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: sendMessageColor,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 15,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        child: Text(
-                          "Login",
-                          style: GoogleFonts.comfortaa(
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
-                        ),
                       ),
                     ),
                     SizedBox(height: 130),
@@ -120,8 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                               color: sendMessageColor,
                               fontWeight: FontWeight.bold,
                             ),
-                            recognizer:
-                            TapGestureRecognizer()
+                            recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Navigator.pushReplacementNamed(context, '/signup');
                               },
