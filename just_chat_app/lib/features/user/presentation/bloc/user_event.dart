@@ -4,14 +4,13 @@ sealed class UserEvent extends Equatable {
   const UserEvent();
 }
 
-class LoginRequested extends UserEvent{
+class LoginEvent extends UserEvent{
   final String email;
   final String password;
 
-  const LoginRequested(this.email, this.password);
+  const LoginEvent(this.email, this.password);
 
   @override
-  // TODO: implement props
   List<Object?> get props => [email, password];
 }
 
