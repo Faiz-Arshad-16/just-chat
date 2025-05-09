@@ -14,13 +14,18 @@ class LoginEvent extends UserEvent{
   List<Object?> get props => [email, password];
 }
 
-class SignupRequested extends UserEvent{
+class CheckAuthentication extends UserEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class SignUpEvent extends UserEvent{
   final String email;
   final String password;
   final String firstname;
   final String lastname;
 
-  const SignupRequested(this.email, this.password, this.firstname, this.lastname);
+  const SignUpEvent(this.email, this.password, this.firstname, this.lastname);
 
   @override
   // TODO: implement props
