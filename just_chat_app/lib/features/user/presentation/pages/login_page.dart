@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return BlocListener<UserBloc, UserState>(
       listener: (context, state) {
-        if (state is UserLoaded) {
+        if (state is UserAuthenticated) {
           Navigator.pushReplacementNamed(context, '/home');
         } else if (state is UserFailure) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));

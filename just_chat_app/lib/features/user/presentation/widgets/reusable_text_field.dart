@@ -36,11 +36,11 @@ class _ReusableTextFieldState extends State<ReusableTextField> {
     if (value == null || value.trim().isEmpty) {
       return 'Please enter a password \n' ' ';
     }
-    const passwordPattern = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$';
-    final regex = RegExp(passwordPattern);
-    if (!regex.hasMatch(value.trim())) {
-      return 'Password must be 8+ characters with letters and numbers';
-    }
+    // const passwordPattern = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$';
+    // final regex = RegExp(passwordPattern);
+    // if (!regex.hasMatch(value.trim())) {
+    //   return 'Password must be 8+ characters with letters and numbers';
+    // }
     return null;
   }
 

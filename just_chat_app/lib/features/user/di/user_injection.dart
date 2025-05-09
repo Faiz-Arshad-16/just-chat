@@ -5,6 +5,7 @@ import 'package:just_chat_app/features/user/data/repositories/user_repository_im
 import 'package:just_chat_app/features/user/domain/repositories/user_repository.dart';
 import 'package:just_chat_app/features/user/domain/use_cases/is_authenticated.dart';
 import 'package:just_chat_app/features/user/domain/use_cases/login.dart';
+import 'package:just_chat_app/features/user/domain/use_cases/sign_up.dart';
 
 void initUser(GetIt getIt) {
   // data sources
@@ -17,5 +18,6 @@ void initUser(GetIt getIt) {
   
   // use cases
   getIt.registerLazySingleton(() => Login(repository: getIt()));
+  getIt.registerLazySingleton(() => SignUp(getIt()));
   getIt.registerLazySingleton(() => IsAuthenticated(getIt()));
 }

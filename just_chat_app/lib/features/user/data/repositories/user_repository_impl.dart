@@ -37,14 +37,18 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<Failure, Null>> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
+  Future<Either<Failure, Null>> signOut() async{
+   throw UnimplementedError();
   }
 
   @override
-  Future<Either<Failure, UserEntity>> signUp(String email, String password) {
-    // TODO: implement signUp
-    throw UnimplementedError();
+  Future<Either<Failure, UserEntity>> signUp(String email, String password , String name) async {
+    try{
+      final user = await userRemoteDataSource.signUp(email, password, name);
+      await userLocalDataSource.cacheToken(user.token);
+      return Right(user);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
   }
 }

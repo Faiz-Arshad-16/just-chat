@@ -29,3 +29,12 @@ final class UserFailure extends UserState {
   @override
   List<Object> get props => [message];
 }
+
+class UserAuthenticated extends UserState {
+  final UserEntity? user;
+
+  const UserAuthenticated({this.user});
+
+  @override
+  List<Object> get props => [user ?? ''];
+}
